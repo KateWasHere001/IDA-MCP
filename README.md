@@ -194,6 +194,8 @@ IDA-MCP/
 
 `open_in_ida` is a proxy-side lifecycle tool. It launches the IDA binary resolved from `IDA_PATH` or `config.conf` (`ida_path`), sets `IDA_MCP_AUTO_START=1`, and injects `-A` unless you already passed it in `extra_args`. This reduces prompts, but it does not guarantee that every IDA/loader/plugin dialog is suppressed.
 
+IDA-MCP is WSL-compatible. In a WSL environment, `open_in_ida` can launch a Windows IDA installation from Linux-side tooling, and it automatically converts the target file path into a Windows path before spawning IDA.
+
 ## Transport Overview
 
 There are three different endpoints in this project, and the distinction matters:
@@ -262,6 +264,7 @@ Notes:
 * The coordinator host and direct instance host are fixed to `127.0.0.1` in code.
 * `IDA_PATH` overrides `ida_path` from `config.conf`.
 * `open_in_ida` no longer accepts an `ida_path` tool argument; configure the IDA executable through `IDA_PATH` or `config.conf`.
+* WSL is supported: you can run the tooling inside WSL and still launch a Windows IDA binary through `open_in_ida`.
 * If both `enable_stdio` and `enable_http` are disabled, the plugin will not start the coordinator/transport stack.
 
 ### Method 1: HTTP Proxy Mode (Recommended)
