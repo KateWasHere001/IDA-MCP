@@ -307,6 +307,7 @@ enable_unsafe = true
 # IDA instance settings
 # ida_default_port = 10000
 # ida_path = "C:\\Path\\To\\ida.exe"
+# ida_python = "C:\\Path\\To\\ida-python\\python.exe"
 # open_in_ida_bundle_dir = "D:\\Temp\\ida-mcp"
 
 # General settings
@@ -320,10 +321,11 @@ Notes:
 * The gateway host and direct instance host are fixed to `127.0.0.1` for client connections in code.
 * `IDA_PATH` overrides `ida_path` from `config.conf`.
 * `IDA_MCP_PYTHON` overrides `gateway_python` from `config.conf`.
+* `ida_python` records the IDA-side Python selected during installation so the configured environment is visible later.
 * `IDA_MCP_BUNDLE_DIR` overrides `open_in_ida_bundle_dir` from `config.conf`.
 * `IDA_MCP_ENABLE_UNSAFE=1|0` overrides `enable_unsafe` from `config.conf`.
 * `IDA_MCP_WSL_PATH_BRIDGE=1|0` overrides `wsl_path_bridge` from `config.conf`.
-* `gateway_python` is used for the standalone gateway/proxy subprocess. `install.py` auto-detects the IDA-side Python and writes it into this field.
+* `gateway_python` is used for the standalone gateway/proxy subprocess. `install.py` recommends filling it explicitly; if left unset, runtime falls back to auto-discovery.
 * `open_in_ida` no longer accepts an `ida_path` tool argument; configure the IDA executable through `IDA_PATH` or `config.conf`.
 * `open_in_ida` sets `IDA_MCP_AUTO_START=1` and `IDA_MCP_PORT=<reserved_port>` for the launched IDA process.
 * `open_in_ida` now takes an `autonomous` parameter; it is not configured through `config.conf`.
@@ -443,10 +445,10 @@ python install.py
 
 The installer:
 
-* discovers the local IDA installation on Windows, Linux, or macOS
-* uses IDA's bundled Python to run `pip install -r requirements.txt`
+* first prompts for the IDA install path and IDA Python path; leaving either blank falls back to auto-discovery, which may take a while
+* uses the selected IDA-side Python to run `pip install -r requirements.txt`
 * copies `ida_mcp.py` and `ida_mcp/` into IDA's `plugins/` directory
-* interactively generates the destination `ida_mcp/config.conf`
+* interactively generates the destination `ida_mcp/config.conf` and recommends setting `gateway_python` explicitly to avoid slow runtime auto-discovery
 
 Use `python install.py --dry-run` to verify detection and configuration choices without making changes.
 

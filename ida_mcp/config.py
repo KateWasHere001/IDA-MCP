@@ -18,6 +18,7 @@ HTTP 代理配置:
 IDA 实例配置 (内部组件，地址固定为 127.0.0.1):
     - ida_default_port: IDA 实例 MCP 端口起始值 (默认 10000)
     - ida_path: IDA 可执行文件路径
+    - ida_python: IDA Python 可执行文件路径
     - open_in_ida_bundle_dir: open_in_ida staging 目录 (可选)
 
 通用配置:
@@ -50,6 +51,7 @@ _DEFAULT_CONFIG = {
     # IDA 实例配置（地址固定为 127.0.0.1，仅端口可配置）
     "ida_default_port": 10000,
     "ida_path": None, # IDA 可执行文件路径
+    "ida_python": None, # IDA Python 可执行文件路径
     "open_in_ida_bundle_dir": None, # open_in_ida staging 目录
 
     # 通用配置
@@ -240,6 +242,23 @@ def get_ida_path() -> str | None:
         config = load_config()
         path = config.get("ida_path")
         
+    if isinstance(path, str):
+        path = path.strip()
+        if path:
+            return path
+    return None
+
+
+def get_ida_python() -> str | None:
+    """获取 IDA Python 可执行文件路径。
+
+    优先级:
+    1. 配置文件中的 ida_python
+    2. None
+    """
+    config = load_config()
+    path = config.get("ida_python")
+
     if isinstance(path, str):
         path = path.strip()
         if path:
