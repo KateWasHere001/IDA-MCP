@@ -41,9 +41,6 @@ _DEFAULT_CONFIG = {
     "enable_unsafe": True,  # 是否启用 unsafe 工具
     "wsl_path_bridge": False,  # 是否启用 WSL/Windows 路径桥接
     
-    # 协调器配置（已并入网关；保留键用于兼容旧配置）
-    "coordinator_port": 11337,
-    
     # HTTP 代理配置
     "http_host": "127.0.0.1",
     "http_port": 11338,
@@ -146,7 +143,7 @@ def load_config(reload: bool = False) -> Dict[str, Any]:
 
 
 # ============================================================================
-# 网关 / 协调器配置访问函数
+# 网关内部 API 配置访问函数
 # ============================================================================
 
 def get_http_bind_host() -> str:
@@ -163,18 +160,18 @@ def get_http_connect_host() -> str:
     return host
 
 
-def get_coordinator_host() -> str:
-    """获取内部 API 的客户端访问地址。"""
+def get_gateway_internal_host() -> str:
+    """获取 gateway 内部 API 的客户端访问地址。"""
     return get_http_connect_host()
 
 
-def get_coordinator_port() -> int:
-    """获取协调器内部 API 所在端口（与网关端口一致）。"""
+def get_gateway_internal_port() -> int:
+    """获取 gateway 内部 API 所在端口（与网关端口一致）。"""
     return get_http_port()
 
 
-def get_coordinator_url() -> str:
-    """获取协调器内部 API 基础 URL。"""
+def get_gateway_internal_url() -> str:
+    """获取 gateway 内部 API 基础 URL。"""
     return f"http://{get_http_connect_host()}:{get_http_port()}/internal"
 
 

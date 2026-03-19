@@ -46,9 +46,10 @@ def _exit_code_from_payload(payload: dict[str, Any], default: int = EXIT_OK) -> 
 def _print_gateway_status(payload: dict[str, Any]) -> None:
     gateway = payload.get("gateway", {})
     proxy = payload.get("proxy", {})
+    gateway_internal = payload.get("gateway_internal", {})
     print(
         f"Gateway: {'running' if gateway.get('alive') else 'stopped'} "
-        f"at {payload['coordinator']['host']}:{payload['coordinator']['port']}"
+        f"at {gateway_internal.get('host')}:{gateway_internal.get('port')}"
     )
     if gateway.get("log"):
         print(f"Gateway log: {gateway['log']}")

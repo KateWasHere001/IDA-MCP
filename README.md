@@ -299,8 +299,6 @@ enable_http = true
 enable_unsafe = true
 # wsl_path_bridge = false
 
-# coordinator_port = 11337  # legacy compatibility key; internal API now shares http_port
-
 # HTTP proxy settings
 # http_host = "127.0.0.1"
 # http_port = 11338
